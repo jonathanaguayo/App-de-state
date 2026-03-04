@@ -1,145 +1,145 @@
-package com.example.composable
+    package com.example.composable
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            var currentScreen by remember { mutableStateOf(1) }
-            MaterialTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-                    Column {
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            Button(onClick = { currentScreen = 1 }) { Text("Pantalla 1") }
-                            Button(onClick = { currentScreen = 2 }) { Text("Pantalla 2") }
-                        }
-                        if (currentScreen == 1) {
-                            HomeScreen()
-                        } else {
-                            LearningScreen()
+    import android.os.Bundle
+    import androidx.activity.ComponentActivity
+    import androidx.activity.compose.setContent
+    import androidx.compose.foundation.*
+    import androidx.compose.foundation.layout.*
+    import androidx.compose.foundation.shape.CircleShape
+    import androidx.compose.foundation.shape.RoundedCornerShape
+    import androidx.compose.material3.*
+    import androidx.compose.runtime.*
+    import androidx.compose.ui.Alignment
+    import androidx.compose.ui.Modifier
+    import androidx.compose.ui.draw.clip
+    import androidx.compose.ui.graphics.Color
+    import androidx.compose.ui.text.font.FontWeight
+    import androidx.compose.ui.tooling.preview.Preview
+    import androidx.compose.ui.unit.dp
+    import androidx.compose.ui.unit.sp
+    class MainActivity : ComponentActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContent {
+                var currentScreen by remember { mutableStateOf(1) }
+                MaterialTheme {
+                    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                Button(onClick = { currentScreen = 1 }) { Text("Pantalla 1") }
+                                Button(onClick = { currentScreen = 2 }) { Text("Pantalla 2") }
+                            }
+                            if (currentScreen == 1) {
+                                HomeScreen()
+                            } else {
+                                LearningScreen()
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
 
-@Composable
-fun CourseCard(
-    title: String,
-    subtitle: String,
-    backgroundColor: Color,
-    price: String? = null,
-    isPromo: Boolean = false
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .height(if (isPromo) 150.dp else 100.dp),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundColor)
+    @Composable
+    fun CourseCard(
+        title: String,
+        subtitle: String,
+        backgroundColor: Color,
+        price: String? = null,
+        isPromo: Boolean = false
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp).fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 6.dp)
+                .height(if (isPromo) 150.dp else 100.dp),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = backgroundColor)
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                Text(subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
-                Spacer(modifier = Modifier.weight(1f))
-                Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    modifier = Modifier.height(30.dp),
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                ) {
-                    Text("▶ Start", color = backgroundColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier.padding(16.dp).fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text(subtitle, color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        modifier = Modifier.height(30.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                    ) {
+                        Text("▶ Start", color = backgroundColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+                if (price != null) {
+                    Text("¥$price", color = Color(0xFFFF5252), fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 }
             }
-            if (price != null) {
-                Text("¥$price", color = Color(0xFFFF5252), fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            }
         }
     }
-}
 
-@Composable
-fun HomeScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp).verticalScroll(rememberScrollState())
-    ) {
-        Text("Onion Math", modifier = Modifier.align(Alignment.CenterHorizontally), fontWeight = FontWeight.Medium)
-
-        Row(modifier = Modifier.padding(vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.size(48.dp).clip(CircleShape).background(Color(0xFFFFC1CC)))
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text("kyzamiz", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text("Grade 4", color = Color.Gray, fontSize = 12.sp)
-            }
-        }
-
-        Text("Start", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
-        CourseCard("Numbers", "Hello cuddly numbers!", Color(0xFF8BC34A), isPromo = true)
-
-        Text("Courses", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
-        CourseCard("Try for 7 Days", "Start on Aug. 1st", Color(0xFF64B5F6), price = "9.9")
-        CourseCard("Autumn Term", "Start on Sep. 1st", Color(0xFF9575CD), price = "398")
-    }
-}
-
-
-@Composable
-fun LearningScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Onion Math", fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Box(modifier = Modifier.size(80.dp).clip(CircleShape).background(Color(0xFFFFC1CC)))
-        Text("kyzamiz", fontWeight = FontWeight.Bold, fontSize = 22.sp, modifier = Modifier.padding(top = 8.dp))
-        Text("Grade 4", color = Color.Gray)
-
-        Surface(
-            modifier = Modifier.padding(vertical = 20.dp).fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            color = Color(0xFFF5F5F5)
+    @Composable
+    fun HomeScreen() {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp).verticalScroll(rememberScrollState())
         ) {
-            Text("⏰ Deadline is coming!", modifier = Modifier.padding(12.dp), fontSize = 14.sp)
-        }
+            Text("Onion Math", modifier = Modifier.align(Alignment.CenterHorizontally), fontWeight = FontWeight.Medium)
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text("Learning", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
-            CourseCard("Autumn Term", "Week 1", Color(0xFF7986CB))
-            CourseCard("Try for 7 Days", "Day 2", Color(0xFF4FC3F7))
+            Row(modifier = Modifier.padding(vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.size(48.dp).clip(CircleShape).background(Color(0xFFFFC1CC)))
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text("kyzamiz", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("Grade 4", color = Color.Gray, fontSize = 12.sp)
+                }
+            }
+
+            Text("Start", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
+            CourseCard("Numbers", "Hello cuddly numbers!", Color(0xFF8BC34A), isPromo = true)
+
+            Text("Courses", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
+            CourseCard("Try for 7 Days", "Start on Aug. 1st", Color(0xFF64B5F6), price = "9.9")
+            CourseCard("Autumn Term", "Start on Sep. 1st", Color(0xFF9575CD), price = "398")
         }
     }
-}
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewOnionApp() {
-    HomeScreen()
-}
+
+
+    @Composable
+    fun LearningScreen() {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Onion Math", fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Box(modifier = Modifier.size(80.dp).clip(CircleShape).background(Color(0xFFFFC1CC)))
+            Text("kyzamiz", fontWeight = FontWeight.Bold, fontSize = 22.sp, modifier = Modifier.padding(top = 8.dp))
+            Text("Grade 4", color = Color.Gray)
+
+            Surface(
+                modifier = Modifier.padding(vertical = 20.dp).fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                color = Color(0xFFF5F5F5)
+            ) {
+                Text("⏰ Deadline is coming!", modifier = Modifier.padding(12.dp), fontSize = 14.sp)
+            }
+
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text("Learning", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
+                CourseCard("Autumn Term", "Week 1", Color(0xFF7986CB))
+                CourseCard("Try for 7 Days", "Day 2", Color(0xFF4FC3F7))
+            }
+        }
+    }
+    @Preview(showBackground = true, showSystemUi = true)
+    @Composable
+    fun PreviewOnionApp() {
+        HomeScreen()
+    }
